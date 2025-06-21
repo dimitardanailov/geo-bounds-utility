@@ -1,0 +1,33 @@
+# Node modules
+node_modules/
+
+# Output directories
+dist/
+build/
+lib/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files
+.env*
+!.env.example
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE config
+.vscode/
+.idea/
+
+# Test coverage
+coverage/
+
+# NPM pack artifacts
+*.tgz
