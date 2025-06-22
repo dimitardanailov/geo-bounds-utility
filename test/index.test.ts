@@ -245,7 +245,31 @@ describe("calculateBoundingCoordinates", () => {
     it("should confirm Sydney is outside New York's bounding box with a small radius", () => {
       const radiusKm = 14000;
 
+      // The test is changed to expect 'true' because a 14,000km radius from New York
+      // creates a bounding box that crosses the North Pole, expanding the longitude
+      // to the entire globe, which includes Sydney's coordinates.
+      isBoundingCoordinates(NewYork, Sydney, radiusKm, true);
+    });
+
+    it("should return FALSE when the bounding box does NOT cross a pole", () => {
+      // TECHNICAL DETAIL:
+      // The distance from New York (~40.7° N) to the North Pole (90° N) is approx. 5,480 km.
+      // A radius smaller than this will NOT trigger the pole-crossing logic.
+      // This results in a narrow, localized bounding box that correctly EXCLUDES Sydney.
+      const radiusKm = 5400; // Using a radius less than the distance to the pole.
+
       isBoundingCoordinates(NewYork, Sydney, radiusKm, false);
+    });
+
+    it("should return TRUE when the bounding box DOES cross a pole", () => {
+      // TECHNICAL DETAIL:
+      // The distance from New York (~40.7° N) to the North Pole (90° N) is approx. 5,480 km.
+      // A radius of 8300 km is larger, triggering the pole-crossing logic.
+      // The function then expands the bounding box longitude to the entire globe (-180 to 180),
+      // which now INCLUDES Sydney's coordinates. The result is therefore 'true'.
+      const radiusKm = 8300; // Using a radius greater than the distance to the pole.
+
+      isBoundingCoordinates(NewYork, Sydney, radiusKm, true);
     });
 
     it("should confirm NewYork is outside Sydney's bounding box with a small radius", () => {
