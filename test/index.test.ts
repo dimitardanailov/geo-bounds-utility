@@ -242,7 +242,7 @@ describe("calculateBoundingCoordinates", () => {
       isBoundingCoordinates(Sydney, NewYork, radiusKm);
     });
 
-    it.skip("should confirm Sydney is outside New York's bounding box with a small radius", () => {
+    it("should confirm Sydney is outside New York's bounding box with a small radius", () => {
       const radiusKm = 14000;
 
       isBoundingCoordinates(NewYork, Sydney, radiusKm, false);
@@ -407,21 +407,23 @@ describe("calculateBoundingCoordinates", () => {
     });
 
     describe("Greenwich", () => {
-      it.skip("should calculate bounding coordinates for Greenwich with a small radius", () => {
-        const geoLocation = {
-          lat: Greenwich.lat,
-          lng: Greenwich.lng,
+      it("should calculate bounding coordinates for Greenwich with a small radius", () => {
+        const geoLocation: GeoLocation = {
+          lat: Greenwich.lat, // 51.4769
+          lng: Greenwich.lng, // 0.0005
           radiusKm: 50,
         };
 
         const result = calculateBoundingCoordinates(geoLocation);
 
-        console.log("Bounding Box for Greenwich (Small Radius):", result);
+        // Correctly calculated deltas for Greenwich's latitude
+        const latDelta = 0.4496;
+        const lngDelta = 0.7214;
 
-        expect(result.minLat).to.be.closeTo(Greenwich.lat - 0.449, 0.001);
-        expect(result.maxLat).to.be.closeTo(Greenwich.lat + 0.449, 0.001);
-        expect(result.minLng).to.be.closeTo(Greenwich.lng - 0.449, 0.001);
-        expect(result.maxLng).to.be.closeTo(Greenwich.lng + 0.449, 0.001);
+        expect(result.minLat).to.be.closeTo(Greenwich.lat - latDelta, 0.001);
+        expect(result.maxLat).to.be.closeTo(Greenwich.lat + latDelta, 0.001);
+        expect(result.minLng).to.be.closeTo(Greenwich.lng - lngDelta, 0.001);
+        expect(result.maxLng).to.be.closeTo(Greenwich.lng + lngDelta, 0.001);
       });
     });
   });
