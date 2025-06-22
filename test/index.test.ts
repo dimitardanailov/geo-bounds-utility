@@ -395,15 +395,18 @@ describe("calculateBoundingCoordinates", () => {
   });
 
   describe("Edge cases: precision of the calculations", () => {
-    it.skip("should correctly calculate bounding coordinates for Sydney", () => {
+    it("should correctly calculate bounding coordinates for Sydney", () => {
       const geoLocation = { lat: Sydney.lat, lng: Sydney.lng, radiusKm: 50 };
 
       const result = calculateBoundingCoordinates(geoLocation);
 
-      expect(result.minLat).to.be.closeTo(Sydney.lat - 0.449, 0.001);
-      expect(result.maxLat).to.be.closeTo(Sydney.lat + 0.449, 0.001);
-      expect(result.minLng).to.be.closeTo(Sydney.lng - 0.449, 0.001);
-      expect(result.maxLng).to.be.closeTo(Sydney.lng + 0.449, 0.001);
+      const latDelta = 0.4496;
+      const lngDelta = 0.5418;
+
+      expect(result.minLat).to.be.closeTo(Sydney.lat - latDelta, 0.001);
+      expect(result.maxLat).to.be.closeTo(Sydney.lat + latDelta, 0.001);
+      expect(result.minLng).to.be.closeTo(Sydney.lng - lngDelta, 0.001);
+      expect(result.maxLng).to.be.closeTo(Sydney.lng + lngDelta, 0.001);
     });
 
     describe("Greenwich", () => {
