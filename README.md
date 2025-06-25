@@ -8,22 +8,44 @@ A TypeScript utility to compute bounding coordinates for a geolocation and deter
 npm install geo-bounds-utility
 ```
 
-### Types
+## Usage
+
+The package exports two main functions and related types:
+
+```typescript
+import {
+  calculateBoundingCoordinates,
+  isPointWithinBounds,
+  GeoPoint,
+  type GeoLocation,
+  type BoundingCoordinates,
+} from "geo-bounds-utility";
+```
+
+### GeoLocation
+
+A `GeoLocation` object defines a circular area.
 
 ```typescript
 type GeoLocation = {
-  lat: number;
-  lng: number;
-  name?: string;
-  radiusKm: number;
+  lat: number; // Latitude of the center
+  lng: number; // Longitude of the center
+  radiusKm: number; // Radius in kilometers
+  name?: string; // Optional name
 };
+```
 
-type BoundingCoordinates = {
-  minLat: number;
-  maxLat: number;
-  minLng: number;
-  maxLng: number;
-};
+### GeoPoint
+
+A `GeoPoint` represents a specific point with latitude and longitude.
+
+```typescript
+class GeoPoint {
+  constructor(latitude: number, longitude: number);
+  readonly latitude: number;
+  readonly longitude: number;
+  isEqual(other: GeoPoint): boolean;
+}
 ```
 
 ## calculateBoundingCoordinates(location: GeoLocation): BoundingCoordinates
@@ -38,6 +60,13 @@ const bounds = calculateBoundingCoordinates({
   lng: -74.006,
   radiusKm: 10,
 });
+
+// {
+//   minLat: 40.622867,
+//   maxLat: 40.802733,
+//   minLng: -74.120694,
+//   maxLng: -73.891306
+// }
 ```
 
 ## isPointWithinBounds(geoPoint?: GeoPoint, geoLocation?: GeoLocation): boolean
@@ -51,6 +80,15 @@ import { isPointWithinBounds } from "your-package";
 const point = new GeoPoint(40.713, -74.007);
 const center = { lat: 40.7128, lng: -74.006, radiusKm: 10 };
 
-const inside = isPointWithinBounds(point, center);
-// true or false
+const inside = isPointWithinBounds(point, center); // true
+```
+
+### Development
+
+To build and test the project:
+
+```bash
+npm install
+npm run build
+npm run test
 ```
