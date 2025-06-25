@@ -2,6 +2,9 @@ import GeoPoint from "./GeoPoint";
 import type GeoLocation from "./GeoLocation";
 import type BoundingCoordinates from "./BoundingCoordinates";
 
+export { GeoPoint };
+export type { GeoLocation, BoundingCoordinates };
+
 export function calculateBoundingCoordinates(
   geoLocation: GeoLocation
 ): BoundingCoordinates {
