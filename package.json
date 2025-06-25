@@ -1,5 +1,7 @@
 {
-  "name": "geo-bounds-utility",
+  "name": "geo-bounding-box",
+  "version": "1.0.0",
+  "description": "Calculate bounding coordinates for geospatial queries using radius in kilometers",
   "type": "commonjs",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
