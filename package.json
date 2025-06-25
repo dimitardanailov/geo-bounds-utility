@@ -8,6 +8,17 @@
   "files": [
     "dist"
   ],
+  "license": "MIT",
+  "keywords": [
+    "geolocation",
+    "bounding box",
+    "radius",
+    "lat/lng",
+    "typescript"
+  ],
+  "author": {
+    "name": "Champions Consulting"
+  },
   "scripts": {
     "build": "tsc",
     "test": "mocha -r ts-node/register test/**/*.test.ts"

@@ -1,5 +1,6 @@
 import { expect } from "chai";
-import { calculateBoundingCoordinates, GeoLocation } from "../src";
+import { calculateBoundingCoordinates } from "../src";
+import GeoLocation from "../src/GeoLocation";
 
 type City = {
   name: string;
