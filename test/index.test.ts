@@ -20,6 +20,11 @@ import {
   NorthPole,
   Equator,
   SouthPole,
+  TelAviv,
+  Haifa,
+  Seoul,
+  Dallas,
+  Tokyo,
 } from "../src/cities";
 
 function isBoundingCoordinates(
@@ -268,6 +273,50 @@ describe("calculateBoundingCoordinates", () => {
       const radiusKm = 50;
 
       isBoundingCoordinates(Cordoba, BuenosAres, radiusKm, false);
+    });
+  });
+
+  describe("calculateBoundingCoordinates - Test Tel Aviv", () => {
+    it("should test if Tel Aviv is within the bounding box of Haifa - radius - 200km", () => {
+      // ~70 km is the distance between Tel Aviv and Haifa
+      const radiusKm = 200;
+
+      isBoundingCoordinates(TelAviv, Haifa, radiusKm);
+    });
+
+    it("should test if Tel Aviv is within the bounding box of London, radius - 3555km", () => {
+      // ~3500 km is the distance between Tel Aviv and London
+      const radiusKm = 3555;
+
+      isBoundingCoordinates(TelAviv, London, radiusKm);
+    });
+
+    it("should test if Tel Aviv is outside the bounding box of Seoul, radius - 200km", () => {
+      // ~8,000 km is the distance between Tel Aviv and Seoul
+      const radiusKm = 200;
+
+      isBoundingCoordinates(TelAviv, Seoul, radiusKm, false);
+    });
+
+    it("should test if Tel Aviv is outside the bounding box of Dallas, radius - 300km", () => {
+      // ~10,000 km is the distance between Tel Aviv and Dallas
+      const radiusKm = 300;
+
+      isBoundingCoordinates(TelAviv, Dallas, radiusKm, false);
+    });
+
+    it("should test if Tel Aviv is outside the bounding box of Tokyo, radius - 4000km", () => {
+      // ~9,000 km is the distance between Tel Aviv and Tokyo
+      const radiusKm = 4000;
+
+      isBoundingCoordinates(TelAviv, Tokyo, radiusKm, false);
+    });
+
+    it("should test if Tel Aviv is outside the bounding box of CapeTown, radius - 5000km", () => {
+      // ~6,500 km is the distance between Tel Aviv and Cape Town
+      const radiusKm = 5000;
+
+      isBoundingCoordinates(TelAviv, Tokyo, radiusKm, false);
     });
   });
 
