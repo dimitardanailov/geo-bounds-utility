@@ -1,8 +1,3 @@
-/**
- * The skipped tests are failing due to the precision of the calculations.
- *
- */
-
 import { expect } from "chai";
 import { calculateBoundingCoordinates, GeoLocation } from "../src";
 
