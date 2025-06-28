@@ -47,6 +47,7 @@ jobs:
           echo "const bounds = calculateBoundingCoordinates({ lat: 1, lng: 1, radiusKm: 1 });" >> test.ts
           echo "console.log(bounds.minLat);" >> test.ts
           npx tsc test.ts --noEmit
+          cd ..
 
           # ts-node consumer test
           mkdir consumer-ts-node && cd consumer-ts-node
@@ -56,6 +57,7 @@ jobs:
           echo "import { calculateBoundingCoordinates } from 'geo-bounds-utility';" > test.ts
           echo "console.log(calculateBoundingCoordinates({ lat: 1, lng: 1, radiusKm: 1 }));" >> test.ts
           npx ts-node test.ts
+          cd ..
 
           # ESM consumer test
           mkdir consumer-esm && cd consumer-esm
@@ -66,5 +68,15 @@ jobs:
           echo 'import { calculateBoundingCoordinates } from "geo-bounds-utility";' > test.mts
           echo 'const bounds = calculateBoundingCoordinates({ lat: 1, lng: 1, radiusKm: 1 });' >> test.mts
           echo 'console.log(bounds.minLat);' >> test.mts
-          npx tsc test.mts --module esnext --target es2022 --noEmit
+          echo '{
+            "compilerOptions": {
+              "target": "ES2022",
+              "module": "ESNext",
+              "moduleResolution": "node",
+              "strict": true,
+              "esModuleInterop": true,
+              "types": []
+            }
+          }' > tsconfig.json
+          npx tsc test.mts --noEmit
           node test.mts
