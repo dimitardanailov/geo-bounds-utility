@@ -47,3 +47,24 @@ jobs:
           echo "const bounds = calculateBoundingCoordinates({ lat: 1, lng: 1, radiusKm: 1 });" >> test.ts
           echo "console.log(bounds.minLat);" >> test.ts
           npx tsc test.ts --noEmit
+
+          # ts-node consumer test
+          mkdir consumer-ts-node && cd consumer-ts-node
+          yarn init -y
+          yarn add ../geo-bounds-utility.tgz
+          yarn add -D typescript ts-node @types/node
+          echo "import { calculateBoundingCoordinates } from 'geo-bounds-utility';" > test.ts
+          echo "console.log(calculateBoundingCoordinates({ lat: 1, lng: 1, radiusKm: 1 }));" >> test.ts
+          npx ts-node test.ts
+
+          # ESM consumer test
+          mkdir consumer-esm && cd consumer-esm
+          yarn init -y
+          yarn add ../geo-bounds-utility.tgz
+          yarn add -D typescript
+          echo '{ "type": "module" }' > package.json
+          echo 'import { calculateBoundingCoordinates } from "geo-bounds-utility";' > test.mts
+          echo 'const bounds = calculateBoundingCoordinates({ lat: 1, lng: 1, radiusKm: 1 });' >> test.mts
+          echo 'console.log(bounds.minLat);' >> test.mts
+          npx tsc test.mts --module esnext --target es2022 --noEmit
+          node test.mts
