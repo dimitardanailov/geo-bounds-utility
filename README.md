@@ -2,6 +2,13 @@
 
 A TypeScript utility to compute bounding coordinates for a geolocation and determine if a point lies within those bounds. Useful for geospatial filtering without expensive distance calculations.
 
+## API Reference
+
+Full API documentation is available at:
+[https://dimitardanailov.github.io/geo-bounds-utility](https://dimitardanailov.github.io/geo-bounds-utility)
+
+![CI](https://github.com/dimitardanailov/geo-bounds-utility/actions/workflows/ci.yml/badge.svg)
+
 ## Installation
 
 ```bash
@@ -75,7 +82,7 @@ Determines if a GeoPoint (from `firebase-admin`) falls within the bounding box d
 
 ```typescript
 import { GeoPoint } from "firebase-admin/firestore";
-import { isPointWithinBounds } from "your-package";
+import { isPointWithinBounds } from "geo-bounds-utility";
 
 const point = new GeoPoint(40.713, -74.007);
 const center = { lat: 40.7128, lng: -74.006, radiusKm: 10 };
