@@ -31,3 +31,6 @@ coverage/
 
 # NPM pack artifacts
 *.tgz
+
+# Docs
+docs/
