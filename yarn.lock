@@ -687,7 +687,7 @@ ts-node@^10.9.1:
     v8-compile-cache-lib "^3.0.1"
     yn "3.1.1"
 
-typedoc@^0.28.6:
+typedoc@0.28.6:
   version "0.28.6"
   resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.28.6.tgz#db658782ca715ce3d7a17f9cdad9296270913862"
   integrity sha512-2VvfK6z3yupcu75qZB00LGICg4qa0lw4yPBrFcnZgqIMwpLjLWopTqNeJ4SSS/s92myvWBECY5zcOSMqpvW3CA==
