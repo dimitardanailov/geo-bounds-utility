@@ -56,6 +56,9 @@ jobs:
     name: Test install in consumer environments (frontend)
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: tgz
       - run: corepack enable && corepack prepare yarn@1.22.22 --activate
       - name: Frontend test
         run: |
@@ -75,6 +78,9 @@ jobs:
     name: Test install in consumer environments (ts-node)
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: tgz
       - run: corepack enable && corepack prepare yarn@1.22.22 --activate
       - name: ts-node test
         run: |
@@ -93,6 +99,9 @@ jobs:
     name: Test install in consumer environments (esm)
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: tgz
       - run: corepack enable && corepack prepare yarn@1.22.22 --activate
       - name: ESM test
         run: |
