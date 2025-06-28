@@ -1,6 +1,6 @@
-import GeoPoint from "./GeoPoint";
-import type GeoLocation from "./GeoLocation";
-import type BoundingCoordinates from "./BoundingCoordinates";
+import GeoPoint from "./GeoPoint.js";
+import type GeoLocation from "./GeoLocation.js";
+import type BoundingCoordinates from "./BoundingCoordinates.js";
 
 export { GeoPoint };
 export type { GeoLocation, BoundingCoordinates };

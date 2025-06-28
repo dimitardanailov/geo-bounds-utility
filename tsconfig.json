@@ -1,12 +1,15 @@
 {
   "compilerOptions": {
     "target": "ES2024",
-    "module": "CommonJS",
+    "module": "esnext",
     "esModuleInterop": true,
     "strict": true,
     "outDir": "dist",
     "moduleResolution": "node",
-    "types": ["mocha", "node", "chai"]
+    "types": ["node", "mocha"]
+  },
+  "ts-node": {
+    "esm": true
   },
   "include": ["src", "test"]
 }

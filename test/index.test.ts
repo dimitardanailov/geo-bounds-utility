@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { calculateBoundingCoordinates } from "../src";
+import { calculateBoundingCoordinates } from "../src/index.js";
 import GeoLocation from "../src/GeoLocation";
 
 import {
@@ -25,7 +25,7 @@ import {
   Seoul,
   Dallas,
   Tokyo,
-} from "../src/cities";
+} from "../src/cities.js";
 
 function isBoundingCoordinates(
   cityA: City,

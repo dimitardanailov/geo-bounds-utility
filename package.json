@@ -2,7 +2,7 @@
   "name": "geo-bounds-utility",
   "version": "1.0.0",
   "description": "Calculate bounding coordinates for geospatial queries using radius in kilometers",
-  "type": "commonjs",
+  "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -21,13 +21,13 @@
   },
   "scripts": {
     "build": "tsc",
-    "test": "mocha -r ts-node/register test/**/*.test.ts",
+    "test": "mocha",
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
     "@types/chai": "5.2.2",
     "@types/mocha": "10.0.10",
-    "chai": "^4.3.7",
+    "chai": "5.2.0",
     "mocha": "11.7.1",
     "ts-node": "^10.9.1",
     "typescript": "5.8.3"
