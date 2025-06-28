@@ -29,6 +29,9 @@ jobs:
         # The '--frozen-lockfile' flag ensures that the exact versions from yarn.lock are used
         run: yarn install --frozen-lockfile
 
+      - name: Type check
+        run: tsc --noEmit
+
       - name: Build project
         run: yarn build
 
