@@ -31,5 +31,17 @@
     "mocha": "11.7.1",
     "ts-node": "^10.9.1",
     "typescript": "5.8.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dimitardanailov/geo-bounds-utility.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dimitardanailov/geo-bounds-utility/issues"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    }
   }
 }
