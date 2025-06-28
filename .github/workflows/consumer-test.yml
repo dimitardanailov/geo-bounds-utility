@@ -7,76 +7,95 @@ on:
   workflow_dispatch:
 
 jobs:
-  test-consumer-install:
+  setup:
     runs-on: ubuntu-latest
-
+    outputs:
+      tgz_path: geo-bounds-utility.tgz
     steps:
       - uses: actions/checkout@v4
-
-      - name: Setup Node.js & Yarn v1
+      - name: Setup Node & Yarn
         uses: actions/setup-node@v4
         with:
           node-version: 20
       - run: corepack enable && corepack prepare yarn@1.22.22 --activate
-
-      - name: Build package
+      - name: Install & build
         run: yarn install --frozen-lockfile && yarn build
-
       - name: Pack tarball
         run: yarn pack --filename geo-bounds-utility.tgz
 
-      - name: Test install in consumer environments
+  test-backend:
+    needs: setup
+    runs-on: ubuntu-latest
+    name: Test install in consumer environments (backend)
+    steps:
+      - uses: actions/checkout@v4
+      - run: corepack enable && corepack prepare yarn@1.22.22 --activate
+      - name: Backend test
         run: |
-          # Node.js (backend) test
-          mkdir consumer-node && cd consumer-node
+          mkdir consumer && cd consumer
+          cp ../geo-bounds-utility.tgz .
           yarn init -y
-          yarn add ../geo-bounds-utility.tgz
+          yarn add ./geo-bounds-utility.tgz
           yarn add -D typescript @types/node
           echo "import { calculateBoundingCoordinates } from 'geo-bounds-utility';" > test.ts
-          echo "const bounds = calculateBoundingCoordinates({ lat: 1, lng: 1, radiusKm: 1 });" >> test.ts
-          echo "console.log(bounds.minLat);" >> test.ts
+          echo "const bounds = calculateBoundingCoordinates({ lat: 1, lng: 1, radiusKm: 1 }); console.log(bounds.minLat);" >> test.ts
+          echo '{ "compilerOptions": { "target": "ES2022", "module": "ESNext", "moduleResolution": "node", "strict": true, "esModuleInterop": true, "types": ["node"] } }' > tsconfig.json
           npx tsc test.ts --noEmit
-          cd ..
 
-          # Frontend (browser) test
-          mkdir consumer-web && cd consumer-web
+  test-frontend:
+    needs: setup
+    runs-on: ubuntu-latest
+    name: Test install in consumer environments (frontend)
+    steps:
+      - uses: actions/checkout@v4
+      - run: corepack enable && corepack prepare yarn@1.22.22 --activate
+      - name: Frontend test
+        run: |
+          mkdir consumer && cd consumer
+          cp ../geo-bounds-utility.tgz .
           yarn init -y
-          yarn add ../geo-bounds-utility.tgz
+          yarn add ./geo-bounds-utility.tgz
           yarn add -D typescript
           echo "import { calculateBoundingCoordinates } from 'geo-bounds-utility';" > test.ts
-          echo "const bounds = calculateBoundingCoordinates({ lat: 1, lng: 1, radiusKm: 1 });" >> test.ts
-          echo "console.log(bounds.minLat);" >> test.ts
+          echo "const bounds = calculateBoundingCoordinates({ lat: 1, lng: 1, radiusKm: 1 }); console.log(bounds.minLat);" >> test.ts
+          echo '{ "compilerOptions": { "target": "ES2022", "module": "ESNext", "moduleResolution": "node", "strict": true, "esModuleInterop": true } }' > tsconfig.json
           npx tsc test.ts --noEmit
-          cd ..
 
-          # ts-node consumer test
-          mkdir consumer-ts-node && cd consumer-ts-node
+  test-tsnode:
+    needs: setup
+    runs-on: ubuntu-latest
+    name: Test install in consumer environments (ts-node)
+    steps:
+      - uses: actions/checkout@v4
+      - run: corepack enable && corepack prepare yarn@1.22.22 --activate
+      - name: ts-node test
+        run: |
+          mkdir consumer && cd consumer
+          cp ../geo-bounds-utility.tgz .
           yarn init -y
-          yarn add ../geo-bounds-utility.tgz
+          yarn add ./geo-bounds-utility.tgz
           yarn add -D typescript ts-node @types/node
-          echo "import { calculateBoundingCoordinates } from 'geo-bounds-utility';" > test.ts
-          echo "console.log(calculateBoundingCoordinates({ lat: 1, lng: 1, radiusKm: 1 }));" >> test.ts
+          echo "import { calculateBoundingCoordinates } from 'geo-bounds-utility'; console.log(calculateBoundingCoordinates({ lat: 1, lng: 1, radiusKm: 1 }));" > test.ts
+          echo '{ "compilerOptions": { "target": "ES2022", "module": "ESNext", "moduleResolution": "node", "strict": true, "esModuleInterop": true, "types": ["node"] } }' > tsconfig.json
           npx ts-node test.ts
-          cd ..
 
-          # ESM consumer test
-          mkdir consumer-esm && cd consumer-esm
+  test-esm:
+    needs: setup
+    runs-on: ubuntu-latest
+    name: Test install in consumer environments (esm)
+    steps:
+      - uses: actions/checkout@v4
+      - run: corepack enable && corepack prepare yarn@1.22.22 --activate
+      - name: ESM test
+        run: |
+          mkdir consumer && cd consumer
+          cp ../geo-bounds-utility.tgz .
           yarn init -y
-          yarn add ../geo-bounds-utility.tgz
+          yarn add ./geo-bounds-utility.tgz
           yarn add -D typescript
           echo '{ "type": "module" }' > package.json
           echo 'import { calculateBoundingCoordinates } from "geo-bounds-utility";' > test.mts
-          echo 'const bounds = calculateBoundingCoordinates({ lat: 1, lng: 1, radiusKm: 1 });' >> test.mts
-          echo 'console.log(bounds.minLat);' >> test.mts
-          echo '{
-            "compilerOptions": {
-              "target": "ES2022",
-              "module": "ESNext",
-              "moduleResolution": "node",
-              "strict": true,
-              "esModuleInterop": true,
-              "types": []
-            }
-          }' > tsconfig.json
+          echo 'console.log(calculateBoundingCoordinates({ lat: 1, lng: 1, radiusKm: 1 }));' >> test.mts
+          echo '{ "compilerOptions": { "target": "ES2022", "module": "ESNext", "moduleResolution": "node", "strict": true, "esModuleInterop": true } }' > tsconfig.json
           npx tsc test.mts --noEmit
           node test.mts
