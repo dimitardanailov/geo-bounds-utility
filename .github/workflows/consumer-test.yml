@@ -1,0 +1,46 @@
+name: Consumer Test
+
+on:
+  pull_request:
+
+jobs:
+  test-consumer-install:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js & Yarn v1
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: corepack enable && corepack prepare yarn@1.22.22 --activate
+
+      - name: Build package
+        run: yarn install --frozen-lockfile && yarn build
+
+      - name: Pack tarball
+        run: yarn pack --filename geo-bounds-utility.tgz
+
+      - name: Test install in consumer environments
+        run: |
+          # Node.js (backend) test
+          mkdir consumer-node && cd consumer-node
+          yarn init -y
+          yarn add ../geo-bounds-utility.tgz
+          yarn add -D typescript @types/node
+          echo "import { calculateBoundingCoordinates } from 'geo-bounds-utility';" > test.ts
+          echo "const bounds = calculateBoundingCoordinates({ lat: 1, lng: 1, radiusKm: 1 });" >> test.ts
+          echo "console.log(bounds.minLat);" >> test.ts
+          npx tsc test.ts --noEmit
+          cd ..
+
+          # Frontend (browser) test
+          mkdir consumer-web && cd consumer-web
+          yarn init -y
+          yarn add ../geo-bounds-utility.tgz
+          yarn add -D typescript
+          echo "import { calculateBoundingCoordinates } from 'geo-bounds-utility';" > test.ts
+          echo "const bounds = calculateBoundingCoordinates({ lat: 1, lng: 1, radiusKm: 1 });" >> test.ts
+          echo "console.log(bounds.minLat);" >> test.ts
+          npx tsc test.ts --noEmit
